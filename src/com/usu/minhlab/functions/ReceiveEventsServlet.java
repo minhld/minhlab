@@ -14,11 +14,12 @@ import com.mongodb.MongoClient;
 @WebServlet("/receiveEvents")
 public class ReceiveEventsServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static final int TOP_ITEMS = 10;
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// receive parameters
-		int top = Integer.parseInt(req.getParameter("top"));
+		int top = req.getParameter("top") != null ? Integer.parseInt(req.getParameter("top")) : TOP_ITEMS;
 		
 		// retrieve mongo client
 		MongoClient mongo = (MongoClient) req.getServletContext().getAttribute("MONGO_CLIENT");
