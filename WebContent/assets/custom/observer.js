@@ -14,7 +14,7 @@ var item = '<li class="clearfix">' +
 		   '		<img src="assets/custom/%IMAGE%" alt="">' +
 		   '	</div>' +
 		   '	<div class="wb">' +
-		   '		%INFO%' +
+		   '		<a onclick="openInNewTab(\'%IMAGE_LINK%\');" style="cursor: pointer;">%INFO%</a>' +
 		   '		<span class="post-date">%TIME%</span>' +
 		   '	</div>' +
 		   '</li>';
@@ -50,9 +50,11 @@ function updateEvents() {
 								replace('%TIME%', new Date(val.time).toLocaleString()).
 								replace('%INFO%', 'Light Is On');
 				} else if (val.type == TYPE_MOVING) {
+					var link = getFileName(val.info);
 					itemX = item.replace('%IMAGE%', MOTION_IMAGE).
 								replace('%TIME%', new Date(val.time).toLocaleString()).
-								replace('%INFO%', 'Detected Motions');
+								replace('%INFO%', 'Detected Motions').
+								replace('%IMAGE_LINK%', link);
 				}
 				$eventContainer.append(itemX);
 			});
@@ -64,3 +66,13 @@ function updateEvents() {
 	});
 }
 
+function getFileName(info) {
+	var jsonInfo = JSON.parse(info);
+	var fileIdx = jsonInfo.file.lastIndexOf('/') + 1;
+	return '/imgs/' + jsonInfo.file.substring(fileIdx);
+}
+
+function openInNewTab(url) {
+	var win = window.open(url, '_blank');
+	win.focus();
+}
