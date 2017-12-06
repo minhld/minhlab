@@ -20,6 +20,10 @@ var item = '<li class="clearfix">' +
 		   '</li>';
 
 $(document).ready(function() {
+	setInterval(function(){ updateEvents() }, 5000);
+});
+
+function updateEvents() {
 	$.ajax({
 		url: 'receiveEvents',
 		type: 'post',
@@ -47,7 +51,5 @@ $(document).ready(function() {
 			
 		}
 	});
-});
-
-
+}
 
