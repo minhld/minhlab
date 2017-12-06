@@ -19,17 +19,27 @@ var item = '<li class="clearfix">' +
 		   '	</div>' +
 		   '</li>';
 
+var loadItem = '<li class="clearfix">' + 
+			   '	<div class="wi">' +
+			   '		<img src="assets/custom/loading.gif" alt="">' +
+			   '	</div>' +
+			   '</li>';
+
 $(document).ready(function() {
 	setInterval(function(){ updateEvents() }, 5000);
 });
 
 function updateEvents() {
+	// add the loading item
+	$eventContainer.empty();
+	$eventContainer.append(loadItem);
+	
 	$.ajax({
 		url: 'receiveEvents',
 		type: 'post',
 		dataType: 'json',
 		data: {
-			'top': 37
+			'top': 10
 		},
 		success: function(data, status, xhr) {
 			var itemX;
@@ -48,7 +58,8 @@ function updateEvents() {
 			});
 		},
 		error: function(xhr, status, error) {
-			
+			$eventContainer.empty();
+			// add an error message here
 		}
 	});
 }

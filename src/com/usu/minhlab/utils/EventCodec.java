@@ -22,15 +22,19 @@ public class EventCodec implements Codec<Event> {
 
 	@Override
 	public Event decode(BsonReader reader, DecoderContext ctx) {
-		reader.readStartDocument();
-		String id = reader.readObjectId().toString();
-        long time = reader.readInt64("time");
-        String type = reader.readString("type");
-        String info = reader.readString("info");
-        reader.readEndDocument();
-        return new Event(time, type, info);
+		try {
+			reader.readStartDocument();
+			String id = reader.readObjectId().toString();
+	        long time = reader.readInt64("time");
+	        String type = reader.readString("type");
+	        String info = reader.readString("info");
+	        reader.readEndDocument();
+	        return new Event(time, type, info);
+		} catch (Exception e) {
+			return null;
+		}
 	}
-
+	
 	@Override
 	public Class<Event> getEncoderClass() {
 		return Event.class;
